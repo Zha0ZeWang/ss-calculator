@@ -20,12 +20,17 @@ export default function UploadPage() {
 
   // 页面加载时，以及每次城市数据上传成功后，拉取最新的城市列表
   const fetchCities = async () => {
+    if (!supabase) return;
     const { data, error } = await supabase.from("cities").select("*");
     if (data) setCitiesList(data);
     if (error) console.error("获取城市列表失败:", error);
   };
 
   useEffect(() => {
+    if (!supabase) {
+      alert("请配置 Supabase 环境变量后再使用");
+      return;
+    }
     fetchCities();
   },[]);
 
@@ -49,6 +54,7 @@ export default function UploadPage() {
   };
 
   const handleCityUpload = async () => {
+    if (!supabase) return alert("请配置 Supabase 环境变量后再使用");
     if (!cityFile) return alert("请先选择城市标准 Excel 文件！");
     setIsUploadingCity(true);
     try {
@@ -69,6 +75,7 @@ export default function UploadPage() {
   };
 
   const handleSalaryUpload = async () => {
+    if (!supabase) return alert("请配置 Supabase 环境变量后再使用");
     if (!salaryFile) return alert("请先选择员工工资 Excel 文件！");
     setIsUploadingSalary(true);
     try {
@@ -89,6 +96,7 @@ export default function UploadPage() {
 
   // 核心业务逻辑：执行计算
   const handleCalculate = async () => {
+    if (!supabase) return alert("请配置 Supabase 环境变量后再使用");
     if (!selectedCityId) return alert("请先在下拉框中选择计算城市！");
     setIsCalculating(true);
 

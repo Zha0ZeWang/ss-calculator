@@ -21,6 +21,10 @@ export default function ResultsPage() {
   // 页面加载时获取结果数据
   useEffect(() => {
     const fetchResults = async () => {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data, error } = await supabase
           .from("results")
